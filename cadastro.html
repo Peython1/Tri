@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Gestão - Cadastro de Aluno</title>
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --secondary-color: #6c757d;
+      --bg-body: #f8f9fa;
+      --white: #ffffff;
+      --text-dark: #333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-body);
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--white);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .voltar-btn {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      transition: opacity 0.2s;
+    }
+
+    .voltar-btn:hover { opacity: 0.7; }
+
+    h1 {
+      text-align: center;
+      color: var(--text-dark);
+      margin-bottom: 35px;
+      font-size: 24px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    /* Grid do Formulário */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .full-width { grid-column: span 2; }
+
+    .form-group { margin-bottom: 15px; }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    .btn-salvar {
+      grid-column: span 2;
+      background: var(--primary-color);
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    .btn-salvar:hover { background: #0056b3; }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .full-width { grid-column: span 1; }
+      .btn-salvar { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-nav">
+    <a href="painel.html" class="voltar-btn">← Voltar ao Painel</a>
+  </div>
+
+  <h1 id="tituloInstituicao">Cadastrar Aluno</h1>
+<h2 id="subtituloNomeInst" style="text-align:center; color: #666; font-size: 1.2rem;"></h2>
+
+  <form id="formAluno" class="form-grid">
+    <!-- Dados Pessoais -->
+    <div class="form-group full-width">
+      <label>Nome Completo</label>
+      <input type="text" id="nome" placeholder="Ex: João Silva" required>
+    </div>
+
+    <div class="form-group">
+      <label>CPF</label>
+      <input type="text" id="cpf" placeholder="000.000.000-00" required>
+    </div>
+
+    <div class="form-group">
+      <label>Endereço</label>
+      <input type="text" id="endereco" placeholder="Rua, Número, Bairro" required>
+    </div>
+
+    <!-- Dados Acadêmicos -->
+    <div class="form-group">
+      <label>Cidade de Emissão</label>
+      <input type="text" id="cidadedeemisao" required>
+    </div>
+
+    <div class="form-group">
+      <label>Curso de Formação</label>
+      <input type="text" id="curso" required>
+    </div>
+
+    <div class="form-group">
+      <label>IES Registradora</label>
+      <input type="text" id="iesRegistradora" required>
+    </div>
+
+    <div class="form-group">
+      <label>IES Expedidora</label>
+      <input type="text" id="iesExpedidora" required>
+    </div>
+
+    <!-- Datas -->
+    <div class="form-group">
+      <label>Data de Ingresso</label>
+      <input type="date" id="dataIngresso" required>
+    </div>
+
+    <div class="form-group">
+      <label>Data de Conclusão</label>
+      <input type="date" id="dataConclusao" required>
+    </div>
+
+    <div class="form-group">
+      <label>Data de Expedição</label>
+      <input type="date" id="dataExpedicao" required>
+    </div>
+
+    <div class="form-group">
+      <label>Data de Registro</label>
+      <input type="date" id="dataRegistro" required>
+    </div>
+
+    <div class="form-group">
+      <label>Data Colação de Grau</label>
+      <input type="date" id="dataColacao" required>
+    </div>
+
+    <!-- Acesso ao Portal -->
+    <div class="form-group">
+      <label>Login Portal</label>
+      <input type="text" id="loginPortal" placeholder="Usuário" required>
+    </div>
+
+    <div class="form-group">
+      <label>Senha Portal</label>
+      <input type="password" id="senhaPortal" placeholder="****" required>
+    </div>
+
+    <button type="submit" class="btn-salvar" id="btnSalvar">Salvar Aluno</button>
+  </form>
+</div>
+
+<script type="module" src="cadastro.js"></script>
+</body>
+</html>

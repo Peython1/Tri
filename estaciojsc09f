@@ -1,0 +1,580 @@
+/* Minification failed. Returning unminified contents.
+(416,13,419,14): run-time error JS1314: Implicit property name must be identifier: ValidarCVVCartao(cvv) {
+                //var cvv = value.replace(/\D/g, '');
+                return (/^\d{3}$/).test(cvv);
+            }
+(420,13,423,14): run-time error JS1314: Implicit property name must be identifier: ValidarMesAnoCartao(mesAno) {
+                //var mesAno = mesAno.replace(/\D/g, '');
+                return (/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/).test(mesAno);
+            }
+(420,13,423,14): run-time error JS1292: Strict-mode does not allow duplicate property names: ValidarMesAnoCartao(mesAno) {
+                //var mesAno = mesAno.replace(/\D/g, '');
+                return (/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/).test(mesAno);
+            }
+ */
+!(function (global) {
+    'use strict';
+    var Estacio = global.Estacio || {},
+        previousEstacio = global.Estacio;
+
+    Estacio.Util = (function () {
+        return {
+            collapseExpandAll: function () {
+
+                var collapse = $(this).attr("data-collapse") == "false";
+
+                if (collapse) {
+                    $(".panel-collapse").collapse('show');
+                    $(this).attr("data-collapse", "true");
+                } else {
+                    $(".panel-collapse").collapse('hide');
+                    $(this).attr("data-collapse", "false");
+                }
+
+            },
+            clearWarningMessage: function () {
+                $('.alert-warning').remove();
+            },
+            clearErrorMessage: function () {
+                $('.error-ajax-form').remove();
+            },
+            clearSuccessMessage: function () {
+                $('.alert-success').remove();
+            },
+            clearAllMessages: function () {
+                $('.message-form').remove();
+            },
+            showWarningMessage: function (errorMessage, $local) {
+                this.basicMessage('alert alert-warning message-form', errorMessage, $local);
+            },
+            showErrorMessage: function (errorMessage, $local) {
+                this.basicMessage('alert alert-danger message-form', errorMessage, $local);
+            },
+            showSuccessMessage: function (successMessage, $local) {
+                this.basicMessage('alert alert-success message-form', successMessage, $local);
+            },
+            basicMessage: function (cssClass, message, $local) {
+                var $local = $local ? $local : $('form:first');
+                $local
+                    .prepend(
+                        $('<div />').append(
+                            $('<div />').append($('<div />')
+                                .addClass(cssClass)
+                                .text(message))
+                                .addClass('col-lg-12'))
+                            .addClass('row'));
+
+                this.scrollTo(0);
+            },
+            showFeedbackLoadingDropDownList: function (elementDropDownList) {
+                if (elementDropDownList.is('select')) {
+                    $('<option>', {
+                        value: '',
+                        selected: true
+                    }).html('Carregando...').appendTo(elementDropDownList);
+                }
+            },
+            showMessageDropDownList: function (idDropDownList, messageOptionText) {
+
+                $(idDropDownList).html('');
+                if ($(idDropDownList).is('select')) {
+                    $('<option>', {
+                        value: '',
+                        selected: true
+                    }).html(messageOptionText).appendTo($(idDropDownList));
+                }
+            },
+            bindDropDownListFromJson: function (idDropDownList, data) {
+                return $(idDropDownList).each(function () {
+                    var list = this;
+                    $.each(data, function (index, itemData) {
+                        var option = new Option(itemData.Text, itemData.Value, itemData.Selected);
+                        list.add(option);
+                    });
+                });
+            },
+            //Função para exibição de mensagem de "Carregando..." em DropDownList
+            showFeedbackLoadingDisabledDropDownList: function (idDropDownList) {
+                $(idDropDownList).html('');
+
+                if ($(idDropDownList).is('select')) {
+                    $('<option>', {
+                        value: '',
+                        selected: true
+                    }).html('Carregando...').appendTo($(idDropDownList));
+
+                    $(idDropDownList).attr('disabled', true);
+                }
+            },
+            //Função para preenchimento de DropDownList dinâmicas em cascata e utilizando Listas em ViewModels
+            bindDisabledDropDownListFromJson: function (idDropDownList, data, firstOptionText, firstOptionValue, firstOptionSelected, ddlValueField, ddlTextField, notFoundText) {
+
+                var oSelect = document.getElementById(idDropDownList.substr(1, idDropDownList.length));
+
+                $(idDropDownList).html('');
+
+                if (data != "") {
+                    return $(idDropDownList).each(function () {
+                        $.each(data, function (index, itemData) {
+                            if (index == 0) {
+
+                                Estacio.Util.appendDropDownList(oSelect, firstOptionText, firstOptionValue, firstOptionSelected);
+
+                                //var option = new Option(firstOptionText, firstOptionValue, firstOptionSelected, firstOptionSelected);
+                                //list.add(option);
+                            }
+
+                            var text = "itemData." + ddlTextField;
+                            var value = "itemData." + ddlValueField;
+
+                            if (itemData != undefined) {
+                                Estacio.Util.appendDropDownList(oSelect, eval(text), eval(value), false);
+                            }
+                        });
+
+                        $(idDropDownList).removeAttr('disabled');
+                    });
+                }
+                else {
+
+                    Estacio.Util.appendDropDownList(oSelect, notFoundText, '', firstOptionSelected);
+
+                    //var option = new Option(notFoundText, '', firstOptionSelected, firstOptionSelected);
+                    //$(idDropDownList).append(option);
+                }
+            },
+            //Função para preenchimento de DropDownList dinâmicas em cascata e utilizando ViewBags
+            bindDisabledDropDownListFromViewBag: function (idDropDownList, data, firstOptionText, firstOptionValue, firstOptionSelected, notFoundText) {
+                $(idDropDownList).html('');
+
+                // Compatibilidade IE8
+                var oSelect = document.getElementById(idDropDownList.substr(1, idDropDownList.length));
+
+                if (data != "") {
+                    $.each(data, function (index, itemData) {
+                        if (index == 0 && firstOptionText != null) {
+
+                            //var option = new Option(firstOptionText, firstOptionValue, firstOptionSelected, firstOptionSelected);
+                            //$(idDropDownList).add(option);
+
+                            Estacio.Util.appendDropDownList(oSelect, firstOptionText, firstOptionValue, firstOptionSelected);
+                        }
+
+                        var text = "itemData.Text";
+                        var value = "itemData.Value";
+
+                        if (itemData != undefined) {
+
+                            Estacio.Util.appendDropDownList(oSelect, eval(text), eval(value), false);
+
+                            //var option = new Option(eval(text), eval(value), false, false);
+                            //$(idDropDownList).add(option);
+                        }
+                    });
+
+                    $(idDropDownList).removeAttr('disabled');
+                }
+                else {
+
+                    Estacio.Util.appendDropDownList(oSelect, notFoundText, '', firstOptionSelected);
+
+                    //var option = new Option(notFoundText, '', firstOptionSelected, firstOptionSelected);
+                    //$(idDropDownList).append(option);
+                }
+            },
+            //Função para carregar dropdownlist com compatibilidade para o IE8
+            appendDropDownList: function (dropDownList, firstOptionText, firstOptionValue, firstOptionSelected) {
+
+                var oOption = document.createElement('option');
+
+                dropDownList.options.add(oOption);
+                oOption.innerHTML = firstOptionText;
+                oOption.value = firstOptionValue;
+                oOption.selected = firstOptionSelected;
+                oOption.defaultSelected = firstOptionSelected;
+            },
+            //Função para exibir datePicker
+            datePicker: function () {
+                $(function () {
+
+                    var datepicker = $.fn.datepicker.noConflict();
+                    $.fn.bootstrapDP = datepicker;
+
+                    $('.datepicker').bootstrapDP({
+                        format: "dd/mm/yyyy",
+                        language: "pt-BR",
+                        autoclose: true,
+                        todayBtn: true
+                    });
+
+                    $('.datepicker').inputmask("dd/mm/yyyy");
+
+                    if ($('.datepicker').attr('value') == '01/01/0001 00:00:00')
+                        $('.datepicker').val('');
+                });
+            },
+            // Função para definir um intervalo de meses no datapicker.
+            setIntervaloDatePicker: function (elemento, dataInicial, dataFinal) {
+                if (elemento) {
+                    if (dataInicial) {
+                        elemento.bootstrapDP('setStartDate', dataInicial);
+                    }
+
+                    if (dataFinal) {
+                        elemento.bootstrapDP('setEndDate', dataFinal);
+                    }
+                }
+            },
+            collapseToggle: function () {
+                $(function () {
+                    $('.collapse-toggle').click(function () {
+                        $(this).find('i').toggleClass("ion-chevron-right ion-chevron-down");
+                    });
+                });
+            },
+            // Inicia o listener de requisições ajax para exibir a mensagem para o usuário
+            // Deve ser iniciado dentro de document.ready
+            startLoadingListener: function (document) {
+                var $this = this;
+                document
+                    .ajaxStart(function () {
+                        $this.showLoading();
+                    })
+                    .ajaxStop(function () {
+                        $this.hideLoading();
+                    });
+            },
+            // Exibe a mensagem para o usuário informando que uma requisição está sendo efetuada
+            showLoading: function () {
+                this.loadingDiv = $('<div />')
+                    .addClass('col-xs-12 text-center loading-feedback')
+                    .css({
+                        'position': 'fixed',
+                        'top': '50%',
+                        'left': '50%',
+                        'transform': 'translate(-50%, -50%)',
+                        'z-index': '9999999999'
+                    })
+                    .append(
+                        $('<span />')
+                            .addClass('alert alert-warning small')
+                            .css({
+                                'padding': '8px',
+                                'font-size': 'medium'
+                            })
+                            .append($('<i />')
+                                .addClass('fas fa-spinner fa-pulse'))
+                            .append($('<strong />')
+                                .text(' Aguarde...')));
+
+                $('body').append("<div class='loading-backdrop'></div>");
+                $('body').append(this.loadingDiv);
+            },
+            // Remove a mensagem informando que uma requisição está sendo efetuada
+            hideLoading: function () {
+                $('.loading-backdrop').remove();
+                $('.loading-feedback').remove();
+            },
+            // Verifica se o dispositivo suporta fazer upload de arquivo
+            isFileUploadSupported: function () {
+                // Trata dispositivos que errôneamente dizem possuir suporte
+                if (navigator.userAgent.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/)) {
+                    return false;
+                }
+                // Cria elemento de teste
+                var el = document.createElement('input');
+                el.type = 'file';
+                return !el.disabled;
+            }(),
+            // Verificar a quantidade máxima de caracteres do textarea
+            checkMaxLengthTextArea: function () {
+                $(function () {
+                    $('textarea[maxlength]').keyup(function () {
+                        var limit = parseInt($(this).attr('maxlength')),
+                            text = $(this).val(),
+                            chars = text.length,
+                            new_text;
+
+                        //check if there are more characters then allowed
+                        if (chars > limit) {
+                            //and if there are use substr to get the text before the limit
+                            new_text = text.substr(0, limit);
+
+                            //and change the current text with the new text
+                            $(this).val(new_text);
+                        }
+                    });
+                });
+            },
+            noConflict: function () {
+                global.Estacio = previousEstacio;
+                return Estacio;
+            },
+            scrollTo: function (position, speed) {
+                var speed = speed ? speed : 'fast';
+                $('html, body, #content').animate({ scrollTop: position }, speed);
+            },
+            redefinirValidator: function () {
+                $('form').removeData('validator');
+                $('form').removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse('form');
+            },
+            parseDate: function (value) {
+                // Expressão regular para pegar datas no formato dd/mm/aaaa e mm/aaaa com hora opcional
+                var match = /^(([0-9]{1,2})\/)?([0-9]{1,2})\/([0-9]{4})(\s*([0-9:]+)?)$/g.exec(value);
+
+                if (match) {
+
+                    var dia = match[2] || '01'; // caso o dia seja omitido, ele considera como o primeiro dia do mês
+                    dia = dia.length < 2 ? '0' + dia : dia;
+                    var mes = match[3];
+                    mes = mes.length < 2 ? '0' + mes : mes;
+                    var ano = match[4];
+                    var hora = match[5];
+
+                    return Date.parse(ano + '/' + mes + '/' + dia + hora);
+                }
+            },
+            // Impossibilita que o usuário dê vários submits de uma só vez
+            blockDoubleSubmit: function () {
+                var $this = this;
+                $('form').submit(function () {
+                    if (!$('form').valid()) {
+                        return false;
+                    } else {
+                        $this.showLoading();
+                        $(this).submit(function () {
+                            return false;
+                        });
+                        return true;
+                    }
+                });
+            },
+            limparMensagem: function () {
+                var divMsg = $('#divMgsAlertDanger');
+                if (divMsg != null) {
+                    divMsg.remove();
+                }
+            },
+            setarMascaraMoeda: function (array) {
+                $.each(array, function (index, object) {
+                    object.maskMoney({ allowNegative: false, thousands: '.', decimal: ',', affixesStay: false });
+                    if (object.val() != '') {
+                        object.maskMoney('mask', object.val().replace(',', '.'));
+                    }
+                });
+            },
+            abrirModalLateral: function (url) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (results) {
+                        if (results) {
+                            $('#contentModal').empty();
+                            $(results).appendTo("#contentModal");
+                        }
+                    },
+                    error: function (xhr, err, msg) {
+                        toastr.error("Erro na chamada ajax: " + msg, '', { preventDuplicates: true });
+                    }
+                });
+            },
+            abrirModalLateralData: function (url, type, data) {
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    url: url,
+                    type: type,
+                    dataType: 'html',
+                    data: data,
+                    success: function (results) {
+                        if (results) {
+                            $('#contentModal').empty();
+                            $(results).appendTo("#contentModal");
+                        }
+                    },
+                    error: function (xhr, err, msg) {
+                        toastr.error("Erro na chamada ajax: " + msg, '', { preventDuplicates: true });
+                    }
+                });
+            },
+            ValidarEmail: function (email) {
+                var regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                return regex.test(email);
+            },
+            ValidarCPF: function (value) {
+                var cpf = value.toString().replace(/[^0-9]/gi, ''); //Remove tudo que não for número
+                if (cpf.length !== 11 || cpf == "00000000000" || cpf == "11111111111" || cpf == "22222222222" || cpf == "33333333333" || cpf == "44444444444" || cpf == "55555555555" || cpf == "66666666666" || cpf == "77777777777" || cpf == "88888888888" || cpf == "99999999999")
+                    return false;
+
+                var add = 0;
+                var rev = 0;
+                for (var i = 0; i < 9; i++)
+                    add += parseInt(cpf.charAt(i)) * (10 - i);
+                rev = 11 - (add % 11);
+                if (rev == 10 || rev == 11)
+                    rev = 0;
+                if (rev !== parseInt(cpf.charAt(9)))
+                    return false;
+                add = 0;
+                for (var i = 0; i < 10; i++)
+                    add += parseInt(cpf.charAt(i)) * (11 - i);
+                rev = 11 - (add % 11);
+                if (rev == 10 || rev == 11)
+                    rev = 0;
+                if (rev !== parseInt(cpf.charAt(10)))
+                    return false;
+
+                return true;
+            },
+            ValidarCVVCartao(cvv) {
+                //var cvv = value.replace(/\D/g, '');
+                return (/^\d{3}$/).test(cvv);
+            },
+            ValidarMesAnoCartao(mesAno) {
+                //var mesAno = mesAno.replace(/\D/g, '');
+                return (/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/).test(mesAno);
+            }
+        }
+    })();
+
+    global.Estacio = Estacio;
+    global.Estacio.Util = Estacio.Util;
+
+})(this);;
+!(function ($) {
+    'use strict';
+    $.fn.tableCheckbox = function () {
+        var $element = this;
+
+        function controlarStatusCheckbox() {
+            var checkbox = $(".hiddencheckbox");
+            if (checkbox.val().toLowerCase() == "true") {
+                $('.table-checkbox').find('i').toggleClass("ion-ios-circle-outline ion-checkmark-circled");
+            }
+        }
+
+        $element.click(function () {
+            var habilitado = $(this).attr('data-habilitado');
+            if (habilitado.toLowerCase() == 'true') {
+                $(this).find('i').toggleClass("ion-ios-circle-outline ion-checkmark-circled");
+                var checkbox = $(".hiddencheckbox");
+                if (checkbox.val().toLowerCase() === "true") {
+                    $(checkbox).val(false);
+                }
+                else {
+                    $(checkbox).val(true);
+                }
+            }
+        });
+
+        controlarStatusCheckbox();
+    }
+
+    $.fn.calendarioEstacio = function (options) {
+        var $calendario = this,
+            datas;
+
+        function setupPlugin() {
+            options = $.extend({
+                dataAtual: new Date(2015, 1, 1),
+                diasMarcados: [{ Disciplina: 'Matemática', Dia: new Date(2015, 1, 5) }],
+                language: 'pt-BR'
+            }, options);
+
+            datas = $.fn.datepicker.dates[options.language];
+        }
+
+        function setupHtml() {
+            var table,
+                html;
+
+            table = '<table class=\"table\">' +
+                        '<thead>' +
+                            '<tr class="cabecalho">' +
+                                '<th class="text-center mes-anterior"><i class="ion-arrow-left-c"></i></th>' +
+                                '<th class="text-center titulo" colspan="5"></th>' +
+                                '<th class="text-center mes-proximo"><i class="ion-arrow-right-c"></i></th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>' +
+                        '</tbody>' +
+                    '</table>';
+
+
+            $calendario.append(table);
+
+            var $cabecalho = $calendario.find('thead > tr:last')
+
+            html = '<tr>';
+            for (var i = 0; i < 7 ; i++) {
+                html += '<td class="dias-semana">' + datas.days[(i % 7)].split('')[0].toUpperCase() + '</th>';
+            }
+            html += '</tr>';
+
+            $(html).insertAfter($cabecalho);
+
+            $('.mes-anterior').click(function () {
+                options.dataAtual.setMonth(options.dataAtual.getMonth() - 1);
+                atualizarCalendario();
+            });
+
+            $('.mes-proximo').click(function () {
+                options.dataAtual.setMonth(options.dataAtual.getMonth() + 1);
+                atualizarCalendario();
+            })
+
+            atualizarCalendario();
+        }
+
+        function quantidadeDiasMes(month, year) {
+            return new Date(year, month + 1, 0).getDate();
+
+        }
+
+        function atualizarCalendario() {
+            var $dias = $calendario.find('tbody'),
+                $titulo = $calendario.find('.titulo'),
+                dataAtual = options.dataAtual,
+                dataInicio = {},
+                inicioDiaSemana = '',
+                html = '';
+
+            $dias.empty();
+
+            $titulo.text(datas.months[dataAtual.getMonth()] + " " + dataAtual.getFullYear());
+
+            dataInicio = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), 1);
+            inicioDiaSemana = dataInicio.getDay();
+
+            for (var j = 0; j < 42; j++) {
+                if (j % 7 == 0) {
+                    html = '<tr>';
+                }
+
+                if ((j < inicioDiaSemana) || (j >= inicioDiaSemana + quantidadeDiasMes(dataAtual.getMonth(), dataAtual.getFullYear()))) {
+                    html += '<td></td>';
+                } else {
+                    if ($.grep(options.diasMarcados, function (e) { return e.Dia.valueOf() == dataInicio.valueOf(); }).length > 0) {
+                        html += '<td>' + dataInicio.getDate() + '</td>';
+                    } else {
+                        html += '<td>' + dataInicio.getDate() + '</td>';
+                    }
+                    dataInicio.setDate(dataInicio.getDate() + 1);
+                    dataInicio.setHours(0, 0, 0, 0);
+                }
+
+                if (j % 7 == 6) {
+                    html += '</tr>'
+                    if ($(html).find('td:not(:empty)').length > 0) {
+                        $dias.append(html);
+                    }
+                }
+            }
+        }
+
+        setupPlugin();
+        setupHtml();
+    }
+
+})($);;

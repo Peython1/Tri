@@ -1,0 +1,45 @@
+<svg width="157" height="168" viewbox="-20 -20 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="move-1" d="M102.099 87.3715C105.817 86.3753 109.219 89.7774 108.223 93.4952L92.5316 152.055C91.5354 155.772 86.8881 157.018 84.1664 154.296L41.2979 111.428C38.5763 108.706 39.8215 104.059 43.5394 103.062L102.099 87.3715Z" fill="#2CA8FF"/>
+    <path class="move-3" d="M94.4279 9.88596C98.0358 11.2269 98.8391 15.9706 95.8739 18.4246L76.8687 34.1537C73.9035 36.6077 69.3936 34.9315 68.751 31.1366L64.6318 6.81306C63.9892 3.01809 67.6957 -0.0494627 71.3036 1.29146L94.4279 9.88596Z" fill="#2CA8FF"/>
+    <path class="move-2" d="M16.4145 142.994C19.7478 141.069 23.9145 143.475 23.9145 147.324V162.411C23.9145 166.26 19.7478 168.666 16.4145 166.741L3.34857 159.198C0.0152397 157.273 0.0152371 152.462 3.34857 150.538L16.4145 142.994Z" fill="#FFA500"/>
+    <path class="move-4" d="M156.247 45.789C158.172 49.1224 155.766 53.289 151.917 53.289L119.092 53.289C115.243 53.289 112.837 49.1224 114.762 45.789L131.175 17.3616C133.099 14.0282 137.91 14.0282 139.835 17.3616L156.247 45.789Z" fill="#FFA500"/>
+    <style> 
+        .move-1{
+            animation: move-1 2s ease-in-out alternate infinite 
+        }
+        .move-2{
+            animation: move-2 3s ease-in-out alternate infinite 
+        }
+        .move-3{
+            transform-origin: center;
+            animation: move-3 2s ease-in-out alternate infinite 
+        }
+        .move-4{
+            transform-origin: center;
+            animation: move-4 3s ease-in-out alternate infinite 
+        }
+
+        @keyframes move-1{
+            to{
+                translate: 3% -3%;
+            }
+        }
+        @keyframes move-2{
+            to{
+                translate: 8% -6%;
+            }
+        }
+        @keyframes move-3{
+            to{
+                translate: -3% 6%;
+                rotate: 10deg;
+            }
+        }
+        @keyframes move-4{
+            to{
+                translate: -5% -15%;
+                rotate: 10deg;
+            }
+        }
+    </style>
+</svg>

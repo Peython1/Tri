@@ -1,0 +1,78 @@
+function lazyLoading(){document.querySelectorAll('[loading="lazy"]').forEach(t=>{t.complete&&0!==t.naturalHeight?t.classList.add("loaded"):t.addEventListener("load",function(){t.classList.add("loaded")})})}$(function(){const l={predefined:"Esse eh um texto predefinido",welcome:"Bem vindo(a)! {0}",errorEmail:"Email inválido!",errorPassword:"Senha inválida!",errorLenghtField:"O campo {0} deve conter entre {1} e {2} caracteres",errorRequiredField:"O campo {0} é obrigatorio!",errorConection:"Ocorreu um erro inexperado!",notFound:"Não foi possivel encontrar {0}",404:"Página não encontrada"};var e=$("[data-text]");for(let t=0;t<e.length;t++){var a=$(e[t]).attr("data-text"),r=$(e[t]).attr("data-replace")?$(e[t]).attr("data-replace").split(","):[];$(e[t]).text(function(t,a){{if(a||0===a){let e=l[t];if("object"!=typeof a)e=e.replace("{0}",a);else for(let t=0;t<a.length;t++)e=e.replace(`{${t}}`,a[t]);return e}return l[t]}}(a,r))}$('[data-toggle="datepicker"]').datepicker();var n=$('[data-toggle="bottomsheet"]');for(let t=0;t<n.length;t++)$(n[t]).on("click",h);var o=$('[data-toggle="tab"]');for(let t=0;t<o.length;t++)$(o[t]).on("click",k);var s=$('[data-toggle="collapse"]');for(let t=0;t<s.length;t++)$(s[t]).on("click",w);var c=$('[data-toggle="modal"]');for(let t=0;t<c.length;t++)$(c[t]).on("click",x);$(document).on("click",'[data-toggle="modal"]',function(){let t=$(this).attr("data-target");$(t).addClass("active"),$(t+' button[data-dismiss="modal"]').on("click",function(){F(t)})});var i=$('[data-toggle="dropdown"]');for(let t=0;t<i.length;t++)$(i[t]).on("click",b);var d=$('[data-toggle="snackbar"]');for(let t=0;t<d.length;t++)$(d[t]).on("click",C);var u=$('[data-toggle="multiselect"]');for(let t=0;t<u.length;t++)!function(t){var e=$(t).attr("data-target"),a=$(t).attr("data-label"),l="",r=$(t).find("option"),n=$(t).find("option[disabled]").html()?$(t).find("option[disabled]").html():"Selecione",o=e?e.replace("#",""):$(t).attr("id"),s="#"+o,c="";null!=$(t).attr("class")&&(c=$(t).attr("class").split(/\s+/).join(" "));if(r){var i=[];for(let t=0;t<r.length;t++){var d=$(r[t]).html(),u=$(r[t]).val(),g=$(r[t]).attr("selected"),p=$(r[t]).attr("disabled");"selected"===g&&"disabled"!=p&&i.push(d.trim()),u&&(l+=`<li class="list-item">
+                <div class="checkbox primary">
+                    <input type="checkbox" name="opt_${t}" id="opt_${t}" value="${u}" ${g?"checked":""}>
+                    <label for="opt_${t}">
+                        <span><i class="fal fa-check"></i></span>
+                        ${d}
+                    </label>
+                </div>
+            </li>`)}h(i)}c=`
+        <div class="multiselect ${c}" id="${o}">
+            <div class="form-group">
+                <label for="name">${a}</label>
+                <div class="input-group">
+                    <div class="input-field">
+                        <div class="form-control">${n}</div>
+                    </div>
+                </div>
+            </div>
+        </div>`,a=` 
+            <div class="bottom-sheet" id="bs${o}">
+                <div class="bottom-sheet-content">
+                    <div class="bottom-sheet-content-header">
+                        <h4>${n}</h4>
+                    </div>
+                    <div class="bottom-sheet-content-body">
+                        <ul class="list-group">
+                            ${l}
+                        </ul>
+                    </div>
+                    <div class="bottom-sheet-content-footer">
+                        <button class="btn" data-dismiss="multiselect">Cancelar</button>
+                        <button class="btn btn-primary" data-toggle="bsselect">Selecionar</button>
+                    </div>
+                </div>
+            </div>`;if($("body").append(a),e){var m=$(s).find("[data-option]");for(let t=0;t<m.length;t++){var v=$(m[t]).attr("data-value"),f=$(m[t]).html();$(m[t]).html(`<div class="checkbox primary">
+                    <input type="checkbox" name="opt_${o}_${t}" id="opt_${o}_${t}" value="${v}">
+                    <label for="opt_${o}_${t}">
+                        <span><i class="fal fa-check"></i></span>
+                        ${f}
+                    </label></div>`)}}else $(c).insertBefore(t);var b="#bs"+o;function h(e){var a="";if(0<e.length){for(let t=0;t<e.length;t++)a+=`<span class="chip">${e[t]}</span>`;$(s).find(".form-control").html(a)}else $(s).find(".form-control").html(n)}$(s).find(".form-control").on("click",function(){$(b).addClass("active")}),$(b).find('[data-toggle="bsselect"]').on("click",function(){var e=$(b).find("input[type=checkbox]:checked + label"),a=[];for(let t=0;t<e.length;t++)$(e[t]).parents("[data-option]").attr("data-label")?a.push($(e[t]).parents("[data-option]").attr("data-label").trim()):$(e[t]).text()&&a.push($(e[t]).text().trim());h(a),$(b).removeClass("active")}),$(b).find('[data-dismiss="multiselect"]').on("click",function(){$(b).removeClass("active")}),(e?$(s).find("[data-options]"):$(t)).remove()}($(u[t]));var g=$('[data-dismiss="alert"]');for(let t=0;t<g.length;t++)$(g[t]).on("click",E);var p=$('[data-ride="slider"]');for(let t=0;t<p.length;t++)!function(a){const l={total:0,sliders:null,max:0,interval:0,current:0,old:0,id:"",slidesToShow:1},e={create(){let e="";for(let t=0;t<l.total;t+=l.slidesToShow){var a=0==t?"active":"";e+=`<li data-slide-to="${t}" class="${a}"></li>`}$(l.id).prepend(`<ol class="carousel-indicators">${e}</ol>`),$(l.id).append(`<a href="#" class="carousel-control-prev" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </a>
+                <a href="#" class="carousel-control-next" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </a>`)},next(){var t=1==l.slidesToShow?l.total-2:Math.ceil(l.total/l.slidesToShow);l.current<=t&&(l.old=l.current,l.current=l.current+l.slidesToShow),e.pause(),e.goTo(),e.play()},prev(){0<l.current&&(l.old=l.current,l.current=l.current-l.slidesToShow),e.pause(),e.goTo(),e.play()},goTo(){var t=l.sliders[l.current].offsetLeft;r.get('[data-ride="slider"]').scrollLeft(t),$(r.get(`[data-slide-to="${l.old}"]`)).removeClass("active"),$(r.get(`[data-slide-to="${l.current}"]`)).addClass("active")},play(){$(a).attr("data-autoplay")&&"false"===$(a).attr("data-autoplay").toLowerCase()||(l.interval=setInterval(function(){l.old=l.current,l.current=l.current+l.slidesToShow,l.current>l.total-1&&(l.current=0),e.goTo()},5e3))},pause(){clearInterval(l.interval)},createListeners(){r.get('[data-slide="prev"]').click(t=>{t.preventDefault(),e.prev()}),r.get('[data-slide="next"]').click(t=>{t.preventDefault(),e.next()}),r.get("[data-slide-to]").click(t=>{t.preventDefault();t=$(t.target).attr("data-slide-to");l.old=l.current,l.current=t,e.pause(),e.goTo(),e.play()})}},r={build(){var t=$(a).attr("id"),e=($(a).removeAttr("id"),a.outerHTML),e=$("<div>").attr("id",t).css({position:"relative"}).append(e);$(a).parent().html(e),l.id="#"+t,l.sliders=r.get(".slider"),l.total=r.get(".slider").length,$(a).attr("data-slidesToShow")&&(l.slidesToShow=parseInt($(a).attr("data-slidesToShow")))},get(t){return $(l.id).find(t)}};r.build(),e.create(),e.createListeners(),e.play()}(p[t]);var m=$('[data-ride="datatable"]');for(let t=0;t<m.length;t++)!function(t){let e=$(t).find("thead th"),a=$(t).find("tbody tr"),l=$(t).attr("id"),r=$(t).attr("class"),s={columns:[],data:[]};const c={get(t){return $("#"+l).find(t)}},i={page:1,perPage:10,totalPages:20},d={init(t){i.perPage=parseInt(c.get(".table-filters .show-num").val()),i.totalPages=Math.ceil(t/i.perPage)},next(){i.page<i.totalPages&&i.page++},prev(){1<i.page&&i.page--},goTo(t){i.page=t},createListeners(){c.get(".first").click(t=>{d.goTo(1),c.get("tbody").html(n.create())}),c.get(".prev").click(t=>{d.prev(),c.get("tbody").html(n.create())}),c.get(".last").click(t=>{d.goTo(i.totalPages),c.get("tbody").html(n.create())}),c.get(".next").click(t=>{d.next(),c.get("tbody").html(n.create())}),c.get(".table-filters input.search").keyup(t=>{i.page=1,c.get("tbody").html(n.create())}),c.get(".table-filters .show-num").change(t=>{i.perPage=parseInt(t.target.value),c.get("tbody").html(n.create())})},buttons(){let e="";let a=i.page-Math.floor(2.5),l=i.page+Math.floor(2.5);a<1&&(a=1,l=5);for(let t=a=l>i.totalPages&&(a=i.totalPages-4,l=i.totalPages,a<1)?1:a;t<=l;t++)i.page==t?e+=`<button class="btn sm btn-primary icon" data-page="${t}">${t}</button>`:e+=`<button class="btn sm bg-color-bg text-color-gray4 icon" data-page="${t}">${t}</button>`;c.get(".table-pagination .numbers").html(e),c.get(".table-pagination .numbers .btn").click(t=>{t=parseInt(t.target.getAttribute("data-page"));d.goTo(t),c.get("tbody").html(n.create())})}},n={create(){let t=Object.assign({},s);var e,a,l=(i.page-1)*i.perPage,r=l+i.perPage,n=(t=c.get(".table-filters input.search").val()?(e=t,a=c.get(".table-filters input.search").val(),e=Object.assign({},e),n=e.data.filter(t=>{if(0<t.filter(t=>t.toLowerCase().includes(a.toLowerCase())).length)return!0}),e.data=n,e):t).data.slice(l,r);let o="";return n.forEach(t=>{o+="<tr>",t.forEach(t=>{o+=`<td>${t}</td>`}),o+="</tr>"}),c.get(".table-total").html(t.data.length),d.init(t.data.length),d.buttons(),o}};for(let t=0;t<e.length;t++)s.columns.push(e[t].innerHTML);for(let t=0;t<a.length;t++){var o=[],u=$(a[t]).find("td");for(let t=0;t<u.length;t++)o.push(u[t].innerHTML);s.data.push(o)}let g="",p="",m=s.data.length;for(let t=0;t<s.columns.length;t++)p+=`<th>${s.columns[t]}</th>`;g+=`<thead><tr>${p}</tr></thead><tbody>${n.create()}</tbody>`;var v=`<div class="${r}" id="${l}">
+            <div class="table-filters">
+                <div class="d-flex-center flex-grow-1 grid-gap-col-16 grid-gap-row-8 flex-wrap">
+                    <select class="form-control sm show-num">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="table-total no-wrap f-size-13"><b>${m}</b> resultados encontrados</span>
+                </div>
+                <input type="text" class="form-control sm search" placeholder="Pesquisar" />
+            </div>
+            <table>${g}</table>
+            <div class="table-pagination">
+                <ul>
+                    <button class="btn sm icon onlytext first far fa-chevron-double-left"></button>
+                    <button class="btn sm icon onlytext prev far fa-chevron-left"></button>
+                    <div class="numbers">
+                        <button class="btn sm btn-primary outlined icon">1</button>
+                    </div>
+                    <button class="btn sm icon onlytext next far fa-chevron-right"></button>
+                    <button class="btn sm icon onlytext last far fa-chevron-double-right"></button>
+                </ul>
+            </div>
+        </div>`;$(t).parent().html(v),d.init(m),d.buttons(),d.createListeners()}(m[t]);var v=$('[data-toggle="drawer"]');for(let t=0;t<v.length;t++)$(v[t]).on("click",y);var f=$('[data-dismiss="drawer"]');for(let t=0;t<f.length;t++)$(f[t]).on("click",S);function b(t){$(".dropdown.active").removeClass("active");t=$(t.target).attr("data-target");$(t).addClass("active")}function h(t){let e=$(t.target).attr("data-target");$(e).addClass("active"),$(e+' [data-dismiss="bottomsheet"]').on("click",function(){var t;t=e,$(t).removeClass("active")})}function k(t){t.preventDefault();t=$(t.target).attr("href");$(t).parents(".tab-content").find(".tab-pane.active").removeClass("active"),$(t).addClass("active")}function w(t){var e=$(t.target).attr("data-target");"#"+$(".collapse.active").attr("id")!=e&&$(".collapse.active").attr("id")?($(t.target).parents(".accordion").find(".collapse.active").removeClass("active"),$(e).addClass("active")):$(e).toggleClass("active")}function x(t){let e=$(t.target).attr("data-target");$(e).addClass("active"),$(e+' button[data-dismiss="modal"]').on("click",function(){F(e)})}function y(t){let e=$(t.target).attr("data-target");$(e).addClass("active"),$(e+' button[data-dismiss="drawer"]').on("click",function(){S(e)})}function C(t){0==$(".snackbar-wrapper").length&&$("body").prepend('<div class="snackbar-wrapper"></div>'),2<$(".snackbar-wrapper .snackbar").length&&$(".snackbar-wrapper .snackbar:first-child").remove();var e=$(t.target).attr("data-type")?$(t.target).attr("data-type"):"primary";let a=$(t.target).attr("data-icon")?$(t.target).attr("data-icon"):"";t=$(t.target).attr("data-label");switch(e){case"success":a="check";break;case"error":a="alert-triangle";break;case"warning":a="alert-circle";break;case"info":a="info-circle";break;default:a=a}$(".snackbar-wrapper").append(`
+        <div class="snackbar ${e}">
+            <div class="snackbar-content">
+                ${a?'<i class="fal fa-'+a+' icon"></i>':""}
+                ${t}
+            </div>
+            <button class="btn xs icon onlytext" data-dismiss="snackbar">&times;</button>
+        </div>
+    `),$(".snackbar-wrapper .snackbar").on("animationend",function(t){$(t.target).remove()}),$('[data-dismiss="snackbar"]').on("click",function(t){$(t.target).parents(".snackbar").remove()})}window.onclick=function(t){var e,a=document.querySelector(".bottom-sheet.active"),a=(t.target==a&&a.classList.remove("active"),document.querySelector(".dialog.active")),l=a&&a.classList.contains("persistent"),l=(t.target!=a||l||a.classList.remove("active"),t.target.matches('[data-toggle="dropdown"]')||(e=document.querySelector(".dropdown.active"))&&setTimeout(function(){e.classList.remove("active")},250),$(".drawer"));l.is(t.target)||0!==l.has(t.target).length||t.target.matches('[data-toggle="drawer"]')||l.removeClass("active")};const L=$("#btnFullscreen");function t(){document.fullscreenElement||document.webkitIsFullScreen||document.mozFullScreen||document.msFullscreenElement||L.toggleClass("fa-compress fa-expand")}function F(t){$(t).removeClass("active")}function S(t,e){$(t).removeClass("active")}function E(t){$(t.target).parents(".alert").remove()}L.on("click",function(){var t;t=t||document.documentElement,document.fullscreenElement||document.mozFullScreenElement||document.webkitFullscreenElement||document.msFullscreenElement?document.exitFullscreen?(document.exitFullscreen(),L.toggleClass("fa-compress fa-expand")):document.msExitFullscreen?(L.toggleClass("fa-compress fa-expand"),document.msExitFullscreen()):document.mozCancelFullScreen?(L.toggleClass("fa-compress fa-expand"),document.mozCancelFullScreen()):document.webkitExitFullscreen&&(L.toggleClass("fa-compress fa-expand"),document.webkitExitFullscreen()):t.requestFullscreen?(t.requestFullscreen(),L.toggleClass("fa-expand fa-compress")):t.msRequestFullscreen?(L.toggleClass("fa-expand fa-compress"),t.msRequestFullscreen()):t.mozRequestFullScreen?(L.toggleClass("fa-expand fa-compress"),t.mozRequestFullScreen()):t.webkitRequestFullscreen&&(L.toggleClass("fa-expand fa-compress"),t.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT))}),document.addEventListener("fullscreenchange",t),document.addEventListener("webkitfullscreenchange",t),document.addEventListener("mozfullscreenchange",t),document.addEventListener("MSFullscreenChange",t);let T=window.location.pathname;T=T.replace(/\//g,"mn_"),document.querySelector("#"+T)&&document.querySelector("#"+T).classList.add("active")}),document.addEventListener("DOMContentLoaded",function(){setTimeout(()=>lazyLoading(),500)});

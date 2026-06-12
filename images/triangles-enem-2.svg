@@ -1,0 +1,41 @@
+<svg width="212" height="210" viewBox="0 0 212 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="move-1" d="M57.2499 30.4402C58.3294 27.5564 62.1259 26.9226 64.0835 29.2994L81.7025 50.6904C83.6601 53.0671 82.3107 56.6719 79.2735 57.1789L51.939 61.7418C48.9018 62.2488 46.4547 59.2779 47.5342 56.3941L57.2499 30.4402Z" fill="#FFBC4A"/>
+    <path class="move-3" d="M162.674 137.372C165.629 138.237 166.54 141.977 164.313 144.104L144.275 163.247C142.048 165.374 138.354 164.293 137.625 161.301L131.066 134.375C130.338 131.384 133.121 128.725 136.076 129.59L162.674 137.372Z" fill="#EA5B0C"/>
+    <path class="move-2" d="M45.7455 90.6686C48.8104 90.9649 50.4052 94.468 48.6161 96.9741L36.7815 113.552C34.9924 116.058 31.1612 115.687 29.8854 112.885L21.4463 94.3469C20.1705 91.5445 22.4069 88.4118 25.4718 88.7082L45.7455 90.6686Z" fill="#EA5B0C"/>
+    <path class="move-4" d="M127.208 82.9231C130.283 82.7551 132.386 85.9785 130.994 88.7252L105.833 138.38C104.441 141.127 100.598 141.337 98.9151 138.758L68.4934 92.1402C66.8106 89.5615 68.5504 86.1282 71.625 85.9602L127.208 82.9231Z" fill="#2CA8FF"/>
+    <style>
+        .move-1{
+            animation: move-1 2s ease-in-out alternate infinite 
+        }
+        .move-2{
+            animation: move-2 3s ease-in-out alternate infinite 
+        }
+        .move-3{
+            animation: move-3 2s ease-in-out alternate infinite 
+        }
+        .move-4{
+            animation: move-4 3s ease-in-out alternate infinite 
+        }
+
+        @keyframes move-1{
+            to{
+                translate: 3% -3%;
+            }
+        }
+        @keyframes move-2{
+            to{
+                translate: -3% 3%;
+            }
+        }
+        @keyframes move-3{
+            to{
+                translate: 3% 3%;
+            }
+        }
+        @keyframes move-4{
+            to{
+                translate: -3% -3%;
+            }
+        }
+    </style>
+</svg>

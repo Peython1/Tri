@@ -1,0 +1,29 @@
+#inicio{
+    background-color: blue;
+}
+.logo{
+    color: white;
+}
+a:link, a:visited {
+	text-decoration: none;
+        color:white;
+	}
+a:hover {
+	text-decoration: underline; 
+	}
+a:active {
+	text-decoration: none
+	}
+/*# sourceMappingURL=personal.css.map */
+#footer{
+    background-color: #3E67B1;
+    /* IE10 Consumer Preview */
+    /* Mozilla Firefox */
+    /* Opera */
+    /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #3A72BC), color-stop(1, #2160BD));
+    /* Webkit (Chrome 11+) */
+    background-image: -webkit-linear-gradient(top, #3A72BC 0%, #2160BD 100%);
+    /* W3C Markup, IE10 Release Preview */
+    background-image: linear-gradient(to bottom, #3A72BC 0%, #2160BD 100%);
+}

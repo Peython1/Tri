@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor de Diploma</title>
+
+<style>
+body {
+    margin: 0;
+    background: #ddd;
+    font-family: Arial;
+}
+
+/* CONTAINER RESPONSIVO */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* AREA DO DOCUMENTO */
+#area {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    aspect-ratio: 1000 / 700;
+    background: white;
+    overflow: hidden;
+    border: 1px solid #aaa;
+}
+
+/* FUNDO FIXO */
+#fundo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    pointer-events: none; /* 🔥 IMPOSSÍVEL MOVER */
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* TEXTOS */
+.texto {
+    position: absolute;
+    cursor: move;
+    padding: 2px 4px;
+    min-width: 50px;
+    outline: none;
+    font-size: 1.5vw;
+}
+
+/* Mobile ajuste */
+@media (max-width: 600px) {
+    .texto {
+        font-size: 3vw;
+    }
+}
+
+/* Sublinhado */
+.sublinhado {
+    border-bottom: 1px solid black;
+}
+
+/* travado */
+.travado .texto {
+    cursor: default;
+}
+
+/* BOTÕES */
+.controles {
+    text-align: center;
+    margin: 15px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    background: #2b6cb0;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+/* imagens adicionadas */
+.img-item {
+    position: absolute;
+    width: 150px;
+    cursor: move;
+    touch-action: none;
+}
+
+/* quando travado */
+.travado .img-item {
+    cursor: default;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div id="area">
+
+        <!-- FUNDO -->
+        <img id="fundo" src="diplomaaaa.jpeg">
+
+        <!-- TEXTOS -->
+        <div class="texto" contenteditable="true" style="top:15%; left:30%;">
+            REPÚBLICA FEDERATIVA DO BRASIL 
+        </div>
+
+
+        <div class="texto" contenteditable="true" style="top:22%; left:25%;">
+            UNIVERSIDADE ESTÁCIO DE SÁ
+        </div>
+          
+
+        <div class="texto" contenteditable="true" style="top:35%; left:10%; width:80%; text-align:center;">
+            <br><br>
+            O(A) Reitor(a) da UNIVERSIDADE ESTACIO DE SA, no uso de suas atribuicoes, tendo em vista a 
+
+conclusao do CURSO DE EDUCACAO FISICA,na data de 12/32/1998, e a colacao de grau na data de
+
+19/09/1999, confere o título de BACHAREL EM EDUCACAO FISICA a ANGELICA CONSALE MARQUES,
+
+nacionalidade BRASILEIRO(A), natural do PARA, nascido(a) em 25/09/1975, portador(a) dacedula de 
+
+indentidade 122894SP, orgao expedidor IIACM/AM e outorga-lhe o presente diploma, a fim de que 
+possa gozar de todos os direitos e prerrogativas legais.
+
+        </div>
+
+       
+
+        <div class="texto" contenteditable="true"
+             style="top:70%; left:65%;">
+            24 de julho de 2025
+        </div>
+
+    </div>
+</div>
+
+<div class="controles">
+    <button onclick="adicionarImagem()">🖼️ Inserir Assinatura</button>
+<input type="file" id="uploadImg" accept="image/*" hidden>
+    <button onclick="toggleLock()">🔒 Travar / Destravar</button>
+    <button onclick="baixarPDF()">⬇️ Baixar PDF</button>
+</div>
+
+<!-- LIBS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+let travado = false;
+let ativo = null;
+let offsetX = 0;
+let offsetY = 0;
+
+/* ===== DRAG UNIVERSAL (MOUSE + TOUCH) ===== */
+
+function iniciarDrag(e, el) {
+    if (travado) return;
+
+    ativo = el;
+
+    const rect = el.getBoundingClientRect();
+
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+}
+
+function mover(e) {
+    if (!ativo || travado) return;
+
+    const area = document.getElementById("area");
+    const rectArea = area.getBoundingClientRect();
+
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    let x = clientX - rectArea.left - offsetX;
+    let y = clientY - rectArea.top - offsetY;
+
+    ativo.style.left = (x / rectArea.width * 100) + "%";
+    ativo.style.top = (y / rectArea.height * 100) + "%";
+}
+
+function parar() {
+    ativo = null;
+}
+
+/* aplicar eventos */
+document.querySelectorAll('.texto').forEach(el => {
+    el.addEventListener('mousedown', e => iniciarDrag(e, el));
+    el.addEventListener('touchstart', e => iniciarDrag(e, el));
+});
+
+document.addEventListener('mousemove', mover);
+document.addEventListener('touchmove', mover);
+
+document.addEventListener('mouseup', parar);
+document.addEventListener('touchend', parar);
+
+/* ===== TRAVAR ===== */
+function toggleLock() {
+    travado = !travado;
+    document.getElementById("area").classList.toggle("travado");
+
+    document.querySelectorAll('.texto').forEach(el => {
+        el.contentEditable = !travado;
+    });
+}
+
+/* ===== PDF ===== */
+async function baixarPDF() {
+    const { jsPDF } = window.jspdf;
+
+    const area = document.getElementById("area");
+
+    const canvas = await html2canvas(area, {
+        scale: 2,
+        useCORS: true
+    });
+
+    const img = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF('l', 'mm', 'a4');
+
+    pdf.addImage(img, 'PNG', 0, 0, 297, 210);
+
+    pdf.save("diploma.pdf");
+}
+</script>
+<script>
+
+/* =========================
+   ADICIONAR IMAGEM
+========================= */
+function adicionarImagem() {
+    document.getElementById("uploadImg").click();
+}
+
+document.getElementById("uploadImg").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const img = document.createElement("img");
+        img.src = event.target.result;
+        img.classList.add("img-item");
+
+        img.style.top = "50%";
+        img.style.left = "50%";
+
+        document.getElementById("area").appendChild(img);
+
+        ativarInteracao(img);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+
+/* =========================
+   DRAG + RESIZE UNIVERSAL
+========================= */
+
+function ativarInteracao(el) {
+
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    el.addEventListener("mousedown", start);
+    el.addEventListener("touchstart", start);
+
+    function start(e) {
+        if (travado) return;
+
+        isDragging = true;
+
+        const rect = el.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+    }
+
+    function move(e) {
+        if (!isDragging || travado) return;
+
+        const area = document.getElementById("area");
+        const rectArea = area.getBoundingClientRect();
+
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        let x = clientX - rectArea.left - offsetX;
+        let y = clientY - rectArea.top - offsetY;
+
+        el.style.left = (x / rectArea.width * 100) + "%";
+        el.style.top = (y / rectArea.height * 100) + "%";
+    }
+
+    function stop() {
+        isDragging = false;
+    }
+
+    document.addEventListener("mousemove", move);
+    document.addEventListener("touchmove", move);
+
+    document.addEventListener("mouseup", stop);
+    document.addEventListener("touchend", stop);
+
+
+    /* =========================
+       RESIZE (SCROLL PC)
+    ========================= */
+    el.addEventListener("wheel", function(e) {
+        if (travado) return;
+
+        e.preventDefault();
+
+        let size;
+
+        if (el.classList.contains("img-item")) {
+            size = el.offsetWidth;
+            size += e.deltaY > 0 ? -10 : 10;
+            el.style.width = size + "px";
+        } else {
+            size = parseFloat(window.getComputedStyle(el).fontSize);
+            size += e.deltaY > 0 ? -1 : 1;
+            el.style.fontSize = size + "px";
+        }
+    });
+
+
+    /* =========================
+       PINCH MOBILE (2 DEDOS)
+    ========================= */
+    let initialDistance = null;
+    let initialSize = null;
+
+    el.addEventListener("touchmove", function(e) {
+        if (travado) return;
+
+        if (e.touches.length === 2) {
+            e.preventDefault();
+
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (!initialDistance) {
+                initialDistance = distance;
+
+                if (el.classList.contains("img-item")) {
+                    initialSize = el.offsetWidth;
+                } else {
+                    initialSize = parseFloat(window.getComputedStyle(el).fontSize);
+                }
+            }
+
+            let scale = distance / initialDistance;
+
+            if (el.classList.contains("img-item")) {
+                el.style.width = (initialSize * scale) + "px";
+            } else {
+                el.style.fontSize = (initialSize * scale) + "px";
+            }
+        }
+    });
+
+    el.addEventListener("touchend", () => {
+        initialDistance = null;
+    });
+}
+
+
+/* =========================
+   ATIVAR NOS TEXTOS EXISTENTES
+========================= */
+document.querySelectorAll('.texto').forEach(el => {
+    ativarInteracao(el);
+});
+
+</script>
+</body>
+</html>

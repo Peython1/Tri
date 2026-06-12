@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação de conformidade da Estrutura XML do Diploma Digital</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        :root {
+            --blue-gov: #1351B4;
+            --blue-dark: #111d7d;
+            --gray-light: #f4f7f9;
+            --gray-footer: #333333;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Rawline", sans-serif, Arial; background: var(--gray-light); color: #333; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* HEADER & NAVBAR DETALHADA */
+        .br-header { background: var(--white); border-bottom: 1px solid #E6E6E6; padding: 15px 0; position: relative; }
+        .container-lg { width: 1140px; max-width: 95%; margin: 0 auto; }
+        .flex-container { display: flex; align-items: center; justify-content: space-between; }
+        
+        .logo-box { display: flex; align-items: center; gap: 20px; }
+        .logo-box img { height: 45px; }
+        .sign { border-left: 1px solid #ccc; padding-left: 20px; font-weight: bold; color: #666; font-size: 18px; }
+
+        .header-actions { display: flex; align-items: center; gap: 25px; }
+        .links-list { display: flex; gap: 15px; font-size: 12px; font-weight: bold; color: #1351B4; text-transform: uppercase; }
+        .login-btn { background: var(--blue-gov); color: white; padding: 8px 15px; border-radius: 4px; font-size: 14px; font-weight: bold; }
+
+        /* NOVO: Botão menu que só aparece no mobile */
+        .menu-mobile-btn { display: none; background: none; border: none; color: var(--blue-gov); font-size: 20px; cursor: pointer; }
+
+        /* HERO AREA */
+        .hero { 
+            background: var(--blue-gov); 
+            height: 400px; 
+            color: white; 
+            padding-top: 50px;
+            background-image: url('https://www.gov.br/mec/pt-br/diploma-digital/banner_digital.png');
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: -20% 50%;
+        }
+        .hero h1 { font-size: 28px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px; }
+
+        /* MAIN CARD */
+        .main-card { 
+            background: white; 
+            margin: -230px auto 6em auto; 
+            width: 800px; 
+            max-width: 95%; 
+            border-radius: 12px; 
+            box-shadow: 10px 10px 50px rgba(1,69,0,0.15); 
+            padding: 40px;
+        }
+        .card-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 20px; }
+        .card-sub { font-size: 14px; line-height: 1.6; color: #494949; margin-bottom: 30px; text-align: left; }
+
+        /* UPLOAD SECTION */
+        .upload-section { text-align: center; padding: 20px; }
+        .upload-helper-icon { margin-bottom: 20px; }
+        .upload-msg { font-weight: bold; color: var(--blue-gov); font-size: 18px; margin-bottom: 20px; }
+        
+        .btn-upload { 
+            background: var(--blue-dark); color: white; border: none; border-radius: 100px; 
+            padding: 16px 30px; font-size: 18px; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 10px;
+        }
+        .btn-verify { 
+            background: #DDDDDD; color: white; border: none; border-radius: 100px; 
+            padding: 16px 60px; font-size: 18px; font-weight: 700; margin-top: 15px; cursor: not-allowed;
+        }
+
+        /* FOOTER COMPLETO (6 COLUNAS) */
+        .br-footer { background: white; border-top: 1px solid #c2c2c2; padding-top: 50px; }
+        .footer-logo { text-align: center; margin-bottom: 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; padding-bottom: 40px; }
+        .footer-col-title { font-weight: bold; font-size: 14px; text-transform: uppercase; margin-bottom: 15px; display: block; }
+        .footer-links li { font-size: 13px; margin-bottom: 8px; color: #666; cursor: pointer; }
+        .footer-links li:hover { color: var(--blue-gov); }
+
+        .footer-bottom { background: white; padding: 20px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .social-icons { display: flex; gap: 15px; }
+        .social-icons i { font-size: 20px; color: #333; }
+
+        /* AJUSTES RESPONSIVOS NAVBAR */
+        @media (max-width: 992px) {
+            .footer-grid { grid-template-columns: repeat(3, 1fr); }
+            .hero { background-size: cover; background-position: center; }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .menu-mobile-btn { display: block; margin-right: 10px; } /* Mostra o botão hambúrguer */
+            
+            .links-list {
+                display: none; /* Esconde os links por padrão no mobile */
+                flex-direction: column;
+                position: absolute;
+                top: 75px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                border-bottom: 2px solid var(--blue-gov);
+                z-index: 999;
+            }
+
+            .links-list.active { display: flex; } /* Classe que o JS vai ativar */
+
+            .logo-box img { height: 25px; }
+            .sign { font-size: 10px; padding-left: 8px; }
+            .header-actions { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="br-header">
+        <div class="container-lg flex-container">
+            <div class="logo-box">
+                <img src="https://www.gov.br/mec/pt-br/++theme++padrao_govbr/img/govbr-logo-large.png" alt="Logo Gov.br">
+                <div class="sign">Ministério da Educação</div>
+            </div>
+            <div class="header-actions">
+                <button class="menu-mobile-btn" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <ul class="links-list" id="menuList">
+                    <li><a href="#">Órgãos do Governo</a></li>
+                    <li><a href="#">Acesso à Informação</a></li>
+                    <li><a href="#">Legislação</a></li>
+                    <li><a href="#">Acessibilidade</a></li>
+                </ul>
+                <div class="login-changed">
+                    <a href="#" class="login-btn"><i class="fas fa-user"></i> Entrar</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container-lg">
+            <h1>Verificação de conformidade da Estrutura XML do Diploma Digital</h1>
+        </div>
+    </section>
+
+    <main class="main-card">
+        <h2 class="card-title">Verificar a estrutura XML do Diploma</h2>
+        <div class="card-sub">
+            <p>Essa ferramenta permite verificar se a estrutura do arquivo XML do diploma digital está em conformidade com o padrão estabelecido pelo MEC por meio da IN SESU nº1/2020 e suas alterações.</p>
+            <p style="margin-top: 15px;">O conteúdo do arquivo não é validado, para isso é necessário acessar o link do diploma digital disponibilizado pelas IES e acessível pelo Cadastro e-MEC na aba ACERVO ACADÊMICO.</p>
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-helper-icon">
+                <svg width="105" height="77" viewBox="0 0 105 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1.66212" y="1.66212" width="101.676" height="73.6758" rx="3.32425" fill="white" stroke="#111d7d" stroke-width="3.32425"/>
+                    <path d="M18.7898 30.4885C18.7898 31.3164 19.476 31.9874 20.3228 31.9874H85.2529" fill="#1351B4" fill-opacity="0.1"/>
+                    <path d="M65.7206 21.8883H39.8557" stroke="#111d7d" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <p class="upload-msg">Faça upload do arquivo .xml e depois clique em verificar.</p>
+            
+            <input type="file" id="file-selector" style="display: none;" accept=".xml">
+            <button class="btn-upload" onclick="document.getElementById('file-selector').click()">
+                <i class="fas fa-upload"></i> Escolher arquivo
+            </button>
+            
+            <div id="file-info" style="margin: 15px 0; font-weight: bold; color: var(--blue-gov);"></div>
+            
+            <a href="verificonsultavel.html"> <button id="btn-verify" class="btn-verify" disabled>Verificar</button></a> 
+            <p style="font-size: 13px; color: #888; margin-top: 20px;">Versões suportadas: schemas XSD 1.05 e demais anteriores.</p>
+        </div>
+    </main>
+
+    <footer class="br-footer">
+        <div class="container-lg">
+            <div class="footer-logo">
+                <img src="https://www.gov.br/mec/pt-br/++theme++padrao_govbr/img/govbr-logo-large.png" alt="Gov BR" style="height: 40px;">
+            </div>
+            
+            <div class="footer-grid">
+                <div>
+                    <span class="footer-col-title">Composição</span>
+                    <ul class="footer-links">
+                        <li>Competências</li>
+                        <li>Gabinete do Ministro</li>
+                        <li>Secretarias</li>
+                        <li>Estrutura Organizacional</li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer-col-title">Canais de Atendimento</span>
+                    <ul class="footer-links">
+                        <li>Ouvidoria</li>
+                        <li>Área de Imprensa</li>
+                        <li>Fale Conosco</li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer-col-title">Acesso à Informação</span>
+                    <ul class="footer-links">
+                        <li>Institucional</li>
+                        <li>Ações e Programas</li>
+                        <li>Participação Social</li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer-col-title">Centrais de Conteúdo</span>
+                    <ul class="footer-links">
+                        <li>Vídeos</li>
+                        <li>Áudios</li>
+                        <li>Fotos</li>
+                        <li>Aplicativos</li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer-col-title">Sistemas</span>
+                    <ul class="footer-links">
+                        <li>Sisu</li>
+                        <li>Prouni</li>
+                        <li>Fies</li>
+                        <li>e-Mec</li>
+                    </ul>
+                </div>
+                <div>
+                    <span class="footer-col-title">Diploma Digital</span>
+                    <ul class="footer-links">
+                        <li>Instituições</li>
+                        <li>Legislação</li>
+                        <li>Perguntas Frequentes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom container-lg">
+            <div class="social-network">
+                <p style="font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;">Redes Sociais</p>
+                <div class="social-icons">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-youtube"></i>
+                    <i class="fab fa-instagram"></i>
+                </div>
+            </div>
+            <div class="gov-seal">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Logotipo_do_Governo_do_Brasil_%282023%29.svg/2560px-Logotipo_do_Governo_do_Brasil_%282023%29.svg.png" alt="Governo Federal" style="height: 40px;">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Função para abrir/fechar menu no celular
+        function toggleMenu() {
+            document.getElementById('menuList').classList.toggle('active');
+        }
+
+        const fileIn = document.getElementById('file-selector');
+        const btnVer = document.getElementById('btn-verify');
+        const info = document.getElementById('file-info');
+
+        fileIn.addEventListener('change', function() {
+            if(this.files.length > 0) {
+                info.innerText = "Arquivo: " + this.files[0].name;
+                btnVer.disabled = false;
+                btnVer.style.background = "#111d7d";
+                btnVer.style.cursor = "pointer";
+            }
+        });
+    </script>
+</body>
+</html>
+
+

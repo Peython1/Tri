@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="pt-br"><head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/personal.css">
+        <link rel="stylesheet" href="css/template-azul.css">
+        <link rel="stylesheet" href="css/navbar.css">
+        <link href="images/favicon-32x32.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+
+        <title>SISTEDU - Sistema Integrado de Educação</title>
+        <link rel="shortcut icon" type="image/png" href="images/favicon-32x32.png">
+        <style>
+            .list-item.first {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body onload="getErros();">
+                <div id="barra-brasil">
+            <a href="http://brasil.gov.br" style="background:#7F7F7F; height: 20px; padding:4px 0 4px 10px; display: block; font-family:sans,sans-serif; text-decoration:none; color:white; ">Portal do Governo Brasileiro</a>
+        </div>
+        <script src="js/barra.js" type="text/javascript"></script>
+        <div class="layout">
+            <header id="site-header">
+                <div class="container">
+                    <div class="row">
+                        <div id="logo" class="col-6 col-md-6 mt-5">
+                            <a href="http://sistedu.info/" title="Sistema Integrado de Educação">
+                                                            <img src="images/logo-SISTEDU.png" alt="Integrado de Educação">
+                                                            <div>
+                                    <span class="portal-title-1">Sistema Integrado de</span>
+                                    <h1 class="portal-title corto">Educação</h1>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6 col-md-6 mt-5">
+                            <h2 class="portal-title-1 d-none d-sm-none d-md-none d-lg-block">Ministério da Educação</h2>
+                            <h3 class="portal-title-1 d-none d-sm-none d-md-none d-lg-block">Pátria amada Brasil!</h3>
+                            <h4 class="portal-description">Sistema de acesso à informação.</h4>
+                        </div>  
+                    </div>
+                </div>
+            </header>
+        </div>
+
+                <div class="container py-5">
+            <div class="row justify-content-end">
+                <div class="col-md-4">
+                    <div class="card ">
+                        <div class="card-header">
+                            <h3 class="card-title text-center">Consulta Pública</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" action="https://mec.sistedu.info/consulta-publica/php/login">
+                                <input type="hidden" name="_token" value="6nvLaus2VHAGXxF2pzi0GcLed1MlCMhW9qs079Zu">                                <div class="form-group">
+                                    <label for="CPF">CPF do Aluno:</label>
+                                   <input type="text" id="cpf" class="form-control"  placeholder="Digite seu CPF">
+                                </div>
+                                <div class="form-group">
+                                    <label for="codacess">Codigo SISTEDU:</label>
+                                  <input type="password"  id="codigo" class="form-control"  placeholder="***">
+                                </div>
+                                <div class="col-md-12">
+                         
+                                </div>
+
+                                 <button class="btn btn-default col-md-12" type="button" id="btnEntrar">Consultar</button>
+                             
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row my-5">
+                <div class="col-md-4">
+                    <a href="http://www.fnde.gov.br/sigarpweb/"><img src="images/sigarp.jpg"></a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://www.fnde.gov.br/habilitacao/consultarSituacao.ha"><img src="images/habilita.jpg"></a>
+                 </div>
+                <div class="col-md-4">
+                    <a href="http://sisfiesaluno.mec.gov.br/seguranca/principal"><img src="images/sisfies.jpg"></a>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-4">
+                        <a href="https://www.fnde.gov.br/sife/"><img src="images/sife.jpg"></a>
+                </div>
+
+                <div class="col-md-4">
+                    <a href="https://www.fnde.gov.br/caeweb/"><img src="images/cae.jpg"></a>
+                </div>
+
+                <div class="col-md-4">
+                    <a href="http://sgb.fnde.gov.br/sistema/informacoes/index"><img src="images/sgb.jpg"></a>
+                </div>
+            </div>    
+        </div>
+                
+        <div id="footer">
+            <div class="container">
+                <div class="row align-items-end  justify-content-end">
+                    <div class="col-4 col-md-2 my-4">
+                        <img class="img-fluid" alt="Brasil - Governo Federal" src="images/brasil2.png">
+                    </div>
+                    <div class="col-4 col-md-1 my-4">
+                        <img class="img-fluid" alt="cebas" src="images/logo_cebas.png">
+                    </div>
+                    <div class="col-4 col-md-1 my-4">
+                        <img class="img-fluid" alt="cebas" src="images/fnde-logo.png">
+                    </div>
+                    <p>  </p>
+                </div>
+            </div>
+        </div>
+        
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/jquery.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/personal.js"></script>
+  
+
+
+<!-- COLE ESTE SCRIPT NO FINAL DO ARQUIVO login-consulta.html
+     imediatamente antes de </body> -->
+
+<script type="module">
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+  deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+window.addEventListener("DOMContentLoaded", () => {
+    // Ajuste os IDs abaixo para os mesmos IDs do seu HTML
+    const inputCpf = document.getElementById("cpf");
+    const inputCodigo = document.getElementById("codigo");
+    const btnEntrar = document.getElementById("btnEntrar");
+
+    // Verifica se os elementos foram encontrados
+    if (!inputCpf) {
+        alert('Campo CPF não encontrado. O input deve ter id="cpf".');
+        return;
+    }
+
+    if (!inputCodigo) {
+        alert('Campo Código não encontrado. O input deve ter id="codigo".');
+        return;
+    }
+
+    if (!btnEntrar) {
+        alert('Botão não encontrado. O botão deve ter id="btnEntrar".');
+        return;
+    }
+
+    // Evento do botão
+    btnEntrar.addEventListener("click", async (e) => {
+        e.preventDefault(); // impede recarregar a página
+
+        const cpf = inputCpf.value.replace(/\D/g, "").trim();
+        const codigo = inputCodigo.value.trim();
+
+        if (!cpf || !codigo) {
+            alert("Preencha CPF e código de autenticação.");
+            return;
+        }
+
+        try {
+            // Busca no Firestore usando o CPF como ID do documento
+            const docRef = doc(db, "alunos1", cpf);
+            const docSnap = await getDoc(docRef);
+
+            if (!docSnap.exists()) {
+                alert("CPF não encontrado no sistema.");
+                return;
+            }
+
+            const dados = docSnap.data();
+
+            // Verifica o código de autenticação
+            if ((dados.codigoAutenticacao || "").trim() !== codigo) {
+                alert("Código de autenticação inválido.");
+                return;
+            }
+
+            // Salva o CPF na sessão para a próxima página
+            sessionStorage.setItem("cpfConsulta", cpf);
+
+            // Redireciona para a página de consulta
+            window.location.href = "consultaalunos.html";
+
+        } catch (erro) {
+            console.error("Erro no login:", erro);
+            alert("Erro ao consultar os dados. Abra o console (F12) para verificar.");
+        }
+    });
+});
+</script>
+
+</body></html>

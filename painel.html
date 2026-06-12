@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+
+
+
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="topbar">
+  <div class="menu-btn" onclick="toggleMenu()">
+    <i class="fas fa-bars"></i>
+  </div>
+
+  <div class="logo">Trampos 2.0</div>
+
+  <div class="user">
+    <img src="WhatsApp Image 2026-04-28 at 11.11.21.jpeg">
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="nav-title">NAVEGAÇÃO</div>
+
+  <ul class="menu">
+
+  <li onclick="carregarPagina('home')">
+    <i class="fas fa-home"></i> Home
+  </li>
+
+  <li onclick="carregarPagina('pedidos')">
+    <i class="fas fa-box"></i> Meus Pedidos
+  </li>
+
+  <li class="novo">
+    <i class="fas fa-car"></i> Painel CNH <span>NOVO!</span>
+  </li>
+
+  <li onclick="carregarPagina('atestado')">
+    <i class="fas fa-stethoscope"></i> Atestado Médico
+  </li>
+
+  <li onclick="carregarPagina('orcamento')">
+    <i class="fas fa-file-invoice"></i> Emitir Orçamento
+  </li>
+
+  <li onclick="carregarPagina('envio')">
+    <i class="fas fa-truck"></i> Fazer Envio
+  </li>
+
+  <li onclick="carregarPagina('listar-envios')">
+    <i class="fas fa-list"></i> Listar Envios
+  </li>
+
+  <!-- 🔥 NOVA PARTE -->
+  <li class="has-submenu">
+    <div onclick="toggleSubmenu(this)">
+      <i class="fas fa-user-graduate"></i> Lista de Alunos
+      <i class="fas fa-chevron-down"></i>
+    </div>
+
+    <ul class="submenu">
+    <a href="todosalunos.html"><li onclick="carregarPagina('alunos')">Todos os Alunos</li></a>
+      <li onclick="carregarPagina('materias')">Matérias</li>
+    </ul>
+  </li>
+
+  <!-- UNIVERSIDADES COM SUBMENU -->
+  <li class="has-submenu">
+    <div onclick="toggleSubmenu(this)">
+      <i class="fas fa-university"></i> Universidades
+      <i class="fas fa-chevron-down"></i>
+    </div>
+
+    <ul class="submenu">
+   
+ <li>
+  <a href="cadastro.html?inst=UNIP">UNIP</a>
+</li>
+
+<li>
+  <a href="cadastro.html?inst=Estácio">Estácio</a>
+</li>
+
+<li>
+  <a href="cadastro.html?inst=Anhanguera">Anhanguera</a>
+</li>
+  
+
+    </ul>
+  </li>
+
+  <li><i class="fas fa-user"></i> Cadastrar Nota Fiscal</li>
+  <li><i class="fas fa-user"></i> Cadastrar Empresa Gov.</li>
+  <li><i class="fas fa-users"></i> Listar Empresas</li>
+  <li><i class="fas fa-exclamation-triangle"></i> Reclame aqui EMPRESA</li>
+
+</ul>
+</div>
+
+<!-- paginas -->
+
+<!-- paginas -->
+
+<!-- OVERLAY MOBILE -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<!-- MAIN -->
+<main class="content">
+
+  <div class="cards">
+    <div class="card">
+      <h2 id="data-validade">Carregando...</h2>
+      <p>Vencimento da assinatura</p>
+      <i class="fas fa-user"></i>
+    </div>
+
+    <div class="card">
+      <h2>Sem permissão</h2>
+      <p>Clientes</p>
+      <i class="fas fa-credit-card"></i>
+    </div>
+
+    <div class="card">
+      <h2>Clientes online: 1</h2>
+      <p>Usuarios Online</p>
+      <i class="fas fa-user-times"></i>
+    </div>
+  </div>
+
+  <div class="alert">
+    <h2>SISTEMA LIBERADO APENAS PARA 1 USUÁRIOS</h2>
+    <p>
+      Se o painel identificar mais de 1 acessos, seu acesso será bloqueado na hora!
+    </p>
+  </div>
+ <div id="conteudo-dinamico"></div>
+</main>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>

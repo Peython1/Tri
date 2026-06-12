@@ -1,0 +1,235 @@
+/* Minification failed. Returning unminified contents.
+(104,32): run-time error CSS1039: Token not allowed after unary operator: '-unnamed-color-c6c6c6'
+ */
+h1, h2, h3, h4, h5, h6 {
+    color: #0BBBEF;
+    font-weight: bold;
+}
+
+a {
+    color: #0BBBEF;
+}
+
+    a:hover {
+        color: #0056b3;
+    }
+
+.logo-mini {
+    max-width: 100%;
+    max-height: 100%;
+    background: transparent url('../images/logo-estacio-sia-v2.png') no-repeat;
+    background-position: center;
+}
+
+.login-page, .register-page {
+    -ms-flex-align: center;
+    align-items: center;
+    background: #27abbf;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100vh;
+    -ms-flex-pack: center;
+    justify-content: center
+}
+
+/*** BACKGROUD GRANDE ***/
+/*.largura-box-metade,
+.register-box {
+  width: 50%;
+}*/
+
+@media (max-width: 575.98px) {
+    .largura-box-metade {
+        margin-top: .5rem;
+        width: 95%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .largura-box-metade {
+        margin-top: .5rem;
+        width: 90%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .largura-box-metade {
+        margin-top: .5rem;
+        width: 70%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .largura-box-metade {
+        margin-top: .5rem;
+        width: 50%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .largura-box-metade {
+        margin-top: .5rem;
+        width: 40%;
+    }
+}
+/*** BACKGROUD GRANDE ***/
+
+
+/*** BOTÕES ***/
+
+.btn {
+    border: 1px solid;
+}
+
+.btn-success {
+    color: #ffffff;
+    background-color: #53B36C;
+    border-color: #28a745;
+    box-shadow: none;
+}
+
+    .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
+        color: #ffffff;
+        background-color: #218838;
+        border-color: #1e7e34;
+        box-shadow: none;
+    }
+
+.btn-light {
+    color: #1F2D3D;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+    .btn-light:hover {
+        border: 1px solid var(--unnamed-color-c6c6c6);
+        background: #C6C6C6 0% 0% no-repeat padding-box;
+        border: 1px solid #C6C6C6;
+        border-radius: 4px;
+        opacity: 1;
+    }
+
+.btn-info {
+    color: #ffffff;
+    background-color: #0BBBEF;
+    border-color: #0BBBEF;
+    box-shadow: none;
+}
+
+    .btn-info:hover,
+    .btn-info:focus,
+    .btn-info:active,
+    .btn-info.active,
+    .open .dropdown-toggle.btn-info {
+        color: #fff;
+        background-color: #07ACDD;
+        border-color: #07ACDD;
+    }
+
+.btn-outline-info {
+    color: #0BBBEF;
+    border-color: #0BBBEF;
+    background-color: #fff;
+}
+
+    .btn-outline-info:hover,
+    .btn-outline-info:focus,
+    .btn-outline-info:active,
+    .btn-outline-info.active,
+    .open .dropdown-toggle.btn-outline-info {
+        color: #0BBBEF;
+        background-color: rgba(11, 187, 239, 0.2);
+        border-color: #0BBBEF;
+    }
+
+.btn-outlook {
+    color: #fff;
+    background-color: #0072C6;
+    border-color: #0072C6;
+    box-shadow: none;
+}
+
+    .btn-outlook:hover {
+        color: #fff;
+        background-color: #005A9D;
+        border-color: #00599B;
+    }
+/*** BOTÕES ***/
+
+.login-box-msg, .register-box-msg {
+    margin: 0;
+    padding: 0 0 0 0;
+    text-align: center;
+}
+
+.login-card-body, .register-card-body {
+    border-radius: 10px;
+    /* Declaração para aparecer no Firefox */
+    -moz-border-radius: 10px;
+    /* Para exibir nos outros navegadores como Chrome, safari, opera*/
+    -webkit-border-radius: 10px;
+}
+
+.separador {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+    .separador::before, .separador::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid #adb5bd;
+    }
+
+    .separador::before {
+        margin-right: .25em;
+    }
+
+    .separador::after {
+        margin-left: .25em;
+    }
+
+.img-mini-circulo {
+    border: 1px solid #adb5bd;
+    margin: 0 auto;
+    padding: 3px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.cursor-ponteiro {
+    cursor: pointer;
+}
+
+.login-card-body .input-group .input-group-text,
+.register-card-body .input-group .input-group-text {
+    color: #A8A8A7;
+}
+
+/*** COMPONENTES DE FORMULÁRIO ***/
+.field-validation-error {
+    color: red;
+    font-size: 13px;
+}
+
+.nova-msg {
+    text-align: center;
+    margin: 0px;
+}
+/*** COMPONENTES DE FORMULÁRIO ***/
+
+
+/*** STEPS ***/
+#BarraProgresso li.active:before, #BarraProgresso li.active:after {
+    background: #53b36c;
+}
+
+.titulo-resumo {
+    color: #53B36C;
+    font-weight: 500;
+    border-bottom: 1px solid #53B36C;
+}
+/*** STEPS ***/
